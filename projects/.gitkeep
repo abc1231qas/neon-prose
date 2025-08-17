@@ -1,0 +1,6 @@
+# Projects Directory
+
+This directory will contain all your writing projects.
+Each project will have its own subdirectory with the seven-stage writing process files.
+
+To create a new project, copy the template from `templates/project-template/` to this directory.
