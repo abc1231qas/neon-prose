@@ -11,8 +11,15 @@ python scripts/compile-article.py <專案名稱>
 import os
 import sys
 import re
+import logging
 from datetime import datetime
 from pathlib import Path
+
+logging.basicConfig(
+    filename='compile-article.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 def extract_my_content(file_path):
     """
@@ -174,13 +181,15 @@ def compile_article(project_name):
     try:
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(final_article)
-        
+
         print(f"✓ 文章整合完成!")
         print(f"✓ 最終文章已儲存至: {output_path}")
+        logging.info("文章整合完成 - 專案: %s, 輸出檔案: %s", project_name, output_path)
         return True
-        
+
     except Exception as e:
         print(f"錯誤: 儲存文章時發生問題: {e}")
+        logging.error("文章整合失敗 - 專案: %s, 錯誤: %s", project_name, e)
         return False
 
 def generate_final_article(title, stage_contents, project_info):
@@ -269,12 +278,14 @@ def main():
     
     # 執行文章整合
     success = compile_article(project_name)
-    
+
     if success:
         print("\n🎉 文章整合成功完成!")
+        logging.info("整合流程完成 - 專案: %s", project_name)
         sys.exit(0)
     else:
         print("\n❌ 文章整合失敗")
+        logging.error("整合流程失敗 - 專案: %s", project_name)
         sys.exit(1)
 
 if __name__ == "__main__":
